@@ -1,0 +1,14 @@
+###
+#READ
+GET http://localhost:3000/api/v1/users
+
+###
+# CREATE
+POST http://localhost:3000/api/v1/users HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Nguyễn Trung Kiên",
+    "phone": "0373736735",
+    "email": "trungkien.website96@gmail.com"
+}
