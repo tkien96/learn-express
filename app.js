@@ -2,9 +2,8 @@ const express = require('express')
 const cors = require('cors')
 const path = require('path')
 const bodyParser = require('body-parser')
-const api = require('./routers/api/v1')
-const web = require('./routers/index')
-const errorMiddleware = require('./middlewares/errorHandling')
+const { auth, api, web } = require('./routers')
+const { verifyToken } = require('./middlewares')
 require('dotenv').config()
 const app = new express()
 app.use(cors())
@@ -17,9 +16,13 @@ app.set('view engine', 'ejs');
 app.use('/static', express.static(path.join(__dirname, 'public')))
 
 // router
-app.use('/api/v1', api)
+app.use('/api', verifyToken, api)
+app.use('/auth', auth)
 app.use('', web)
-app.get('*', errorMiddleware)
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Internal Server Error');
+})
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {

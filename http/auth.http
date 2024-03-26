@@ -1,0 +1,20 @@
+@url = http://localhost:3000/auth
+### register
+POST {{ url }}/register HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Kiên Nguyen",
+    "phone": "0973501134",
+    "email": "trungkien.it96@gmail.com",
+    "password": "kien001"
+}
+
+### login
+POST {{ url }}/login HTTP/1.1
+content-type: application/json
+
+{
+    "email": "trungkien.website96@gmail.com",
+    "password": "Hugo001"
+}

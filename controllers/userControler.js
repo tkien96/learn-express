@@ -1,24 +1,41 @@
 const { SQUsers } = require("../models/sequelize")
+const { Op } = require('sequelize');
+const { userValidator } = require('../validations/userValidator')
 
-const read = async (req, res) => {
+const list = async (req, res) => {
   try {
-    const users = await SQUsers.findAll({ attributes: ["id", "name", "phone", "email", "created_at", "updated_at", "active"] })
+    const options = {},
+      { key, active } = req.query,
+      attributes = ['id', 'name', 'phone', 'email', 'created_at', 'updated_at', 'active']
+
+    Object.assign(options, { active: active ? active : '1' })
+    if(key) Object.assign(options, {
+      [Op.or]: [
+        { name: { [Op.like]: `%${key}%` } },
+        { email: { [Op.like]: `%${key}%` } }
+      ]
+    })
+    const users = await SQUsers.findAll({
+      attributes: attributes,
+      where: { ...options }
+    })
     res.status(200).json(users)
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
 }
 
-const create = async (req, res) => {
+const update = (req, res) => {
   try {
-    SQUsers.create(req.body)
-    res.status(200).json({ message: "Success !" })
+    const { error } = userValidator(req.body)
+    if(error) return res.json(400).json({ message: error.details[0].message })
+    
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
 }
 
 module.exports = {
-  read,
-  create,
+  list,
+  update
 }

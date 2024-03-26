@@ -1,14 +1,20 @@
-###
-#READ
-GET http://localhost:3000/api/v1/users
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Ikh1Z28gTmd1eWVuIiwicGhvbmUiOiIwMzczNzM2NzM1IiwiZW1haWwiOiJ0cnVuZ2tpZW4ud2Vic2l0ZTk2QGdtYWlsLmNvbSIsImlhdCI6MTcxMTQ0Mjk3MiwiZXhwIjoxNzExNTI5MzcyfQ.EsVlhZnsIEKA31XewGToNnpn3vJRTTineBQtWUDoc7A
 
-###
-# CREATE
-POST http://localhost:3000/api/v1/users HTTP/1.1
-content-type: application/json
+@url = http://localhost:3000/api
+
+### List
+# paramater: key (string), active ('0' or '1')
+GET {{ url }}/users?key=nguyen
+authorization: {{ token }}
+
+### UPDATE USER
+POST {{ url }}/users/1 HTTP/1.1
+authorization: {{ token }}
 
 {
-    "name": "Nguyễn Trung Kiên",
-    "phone": "0373736735",
-    "email": "trungkien.website96@gmail.com"
+    "name": "Kiên Nguyen",
+    "phone": "0973501134",
+    "email": "trungkien.it96@gmail.com",
+    "password": "kien001",
+    "active": "1"
 }
