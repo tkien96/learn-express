@@ -1,6 +1,5 @@
 require('dotenv').config()
 const Sequelize = require('sequelize')
-
 const userModel = require('./userModel')
 
 const sequelize = new Sequelize({

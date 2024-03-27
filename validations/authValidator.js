@@ -13,7 +13,8 @@ const registerValidator = (data) => {
 const loginValidator = (data) => {
   const rule = Joi.object({
     email: Joi.string().min(6).max(255).required().email(),
-    password: Joi.string().pattern(new RegExp(/^[a-zA-Z0-9]{6,20}$/)).required()
+    password: Joi.string().pattern(new RegExp(/^[a-zA-Z0-9]{6,20}$/)).required(),
+    remember: Joi.number().valid(0, 1)
   })
   return rule.validate(data)
 }

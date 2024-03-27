@@ -1,4 +1,4 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Ikh1Z28gTmd1eWVuIiwicGhvbmUiOiIwMzczNzM2NzM1IiwiZW1haWwiOiJ0cnVuZ2tpZW4ud2Vic2l0ZTk2QGdtYWlsLmNvbSIsImlhdCI6MTcxMTQ0Mjk3MiwiZXhwIjoxNzExNTI5MzcyfQ.EsVlhZnsIEKA31XewGToNnpn3vJRTTineBQtWUDoc7A
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Iktpw6puIE5ndXnhu4VuIiwicGhvbmUiOiIwOTczNTAxMTM0IiwiZW1haWwiOiJ0cnVuZ2tpZW4uaXQ5NkBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYSQxMCR4Y1Z5QmxzNkY5VDhXdkpJbXB4M2tPYkVOLjA5cklockVvLnF4VGdlb3JPUy5tQ2Q4Y1o1SyIsImlhdCI6MTcxMTUyNjkzNCwiZXhwIjoxNzExNjEzMzM0fQ.C109p8jM7SBu4uUt9wZ_x54gVVvZlbnTFM_-Ppg3dgM
 
 @url = http://localhost:3000/api
 
@@ -8,13 +8,17 @@ GET {{ url }}/users?key=nguyen
 authorization: {{ token }}
 
 ### UPDATE USER
-POST {{ url }}/users/1 HTTP/1.1
+PUT {{ url }}/users/1 HTTP/1.1
 authorization: {{ token }}
+content-type: application/json
 
 {
-    "name": "Kiên Nguyen",
-    "phone": "0973501134",
-    "email": "trungkien.it96@gmail.com",
-    "password": "kien001",
-    "active": "1"
+    "name": "Kiên Nguyễn"
+    //"phone": "0373736735",
+    //"email": "trungkien.website96@gmail.com",
+    //"active": "1"
 }
+
+### DELETE
+DELETE {{ url }}/users/1 HTTP/1.1
+authorization: {{ token }}

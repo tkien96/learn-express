@@ -2,17 +2,14 @@ const Joi = require("joi")
 
 const userValidator = (data) => {
   const rule = Joi.object({
-    id: Joi.number().required(),
     name: Joi.string().min(6).max(255),
     email: Joi.string().min(6).max(255).email(),
-    password: Joi.string()
-      .pattern(new RegExp(/^[a-zA-Z0-9]{6,20}$/))
-      .message("Password must contain both characters and numbers !"),
     phone: Joi.string()
       .min(10)
       .max(15)
       .pattern(new RegExp(/^(0[1-9][0-9]{8,9})$/))
-      .message("Invalid Vietnamese phone number")
+      .message("Invalid Vietnamese phone number"),
+    active: Joi.string().valid('0', '1')
   })
 
   return rule.validate(data)

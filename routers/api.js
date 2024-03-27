@@ -3,6 +3,7 @@ const userControler = require('../controllers/userControler')
 
 api
 .get('/users', userControler.list)
-.post('/users/:id', userControler.update)
+.put('/users/:id', userControler.update)
+.delete('/users/:id', userControler.deleted)
 
 module.exports = api

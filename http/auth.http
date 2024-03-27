@@ -15,6 +15,6 @@ POST {{ url }}/login HTTP/1.1
 content-type: application/json
 
 {
-    "email": "trungkien.website96@gmail.com",
-    "password": "Hugo001"
+    "email": "trungkien.it96@gmail.com",
+    "password": "kien001"
 }

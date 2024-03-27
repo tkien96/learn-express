@@ -8,7 +8,7 @@ const register = async (req, res) => {
     const { error } = registerValidator(req.body)
     if (error) return res.status(400).json({ message: error.details[0].message })
     const data = req.body, 
-        checkUserExists = await SQUsers.findOne({ where: { email: data.email, active: "1" } })
+      checkUserExists = await SQUsers.findOne({ where: { email: data.email, active: "1" } })
     if (checkUserExists) return res.status(400).json({ message: `${data.email} Registered !` })
     const salt = await bcrypt.genSalt(10)
     data.password = await bcrypt.hash(data.password, salt)
@@ -22,20 +22,35 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     try {
         const { error } = await loginValidator(req.body),
-            { email, password } = req.body
+          { email, password, remember } = req.body,
+          attributes = ["id", "name", "phone", "email", "password"]
         if(error) return res.status(400).json({ message: error.details[0].message })
-        const user = await SQUsers.findOne({ where: { email: email, active: "1" }, attributes: ["id", "name", "phone", "email", "password"] })
+        const user = await SQUsers.findOne({ where: { email: email, active: "1" }, attributes: attributes })
         if(!user) return res.status(400).json({ message: 'Email or Password is not correct !' })
         const checkPassword = await bcrypt.compare(password, user.password)
         if(!checkPassword) return res.status(400).json({ message: 'Email or Password is not correct !' })
-        const token = jwt.sign({ id: user.id, name: user.name, phone: user.phone, email: user.email }, process.env.TOKEN_SECRET, { expiresIn: process.env.EXPIRES_IN })
-        res.header('authorization', token).send(token)
+        const token = jwt.sign({ ...user.dataValues }, process.env.TOKEN_SECRET, { expiresIn: process.env.EXPIRES_IN }),
+          result = {user: { ...user.dataValues }, isLogin: true, remember: remember, token: token}
+        req.session.auth = result
+        res.header('authorization', token).status(200).json({ message: "Signin success !", data: result })
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
 }
 
+const logout = (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+        console.error('Error destroying session:', err)
+        res.status(500).send('Error logging out')
+    } else {
+        res.send('Logged out successfully')
+    }
+  })
+}
+
 module.exports = {
     register,
-    login
+    login,
+    logout
 }

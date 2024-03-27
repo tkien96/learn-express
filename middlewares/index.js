@@ -1,7 +1,11 @@
-const errorMiddleware = require('./errorHandling')
 const verifyToken = require('./verifyToken')
+const verifySignin = require('./verifySignin')
+const verifyAuth = require('./verifyAuth')
+const morganMiddleware = require('./morgan')
 
 module.exports = {
-    errorMiddleware,
-    verifyToken
+    verifyAuth,
+    verifyToken,
+    verifySignin,
+    morganMiddleware
 }
